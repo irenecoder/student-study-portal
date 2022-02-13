@@ -1,5 +1,5 @@
 from pyexpat.errors import messages
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .forms import *
 from django.contrib import messages
 
@@ -20,4 +20,7 @@ def notes(request):
     notes = Notes.objects.filter(user=request.user)
     context={'notes':notes,'form':form}
     return render(request,'portal/notes.html',context)
- 
+
+def delete_note(request,pk=None):
+    Notes.objects.get(id=pk).delete()
+    return redirect("notes")
