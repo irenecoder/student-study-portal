@@ -108,6 +108,33 @@ def youtube(request):
     context = {'form':form}
     return render(request,'portal/youtube.html',context)
 
+def todo(request):
+    if request.method == 'POST':
+        form = TodoForm(request.POST)
+        if form.is_valid():
+            try:
+                finished = request.POST['is_finished']
+                if finished == 'on':
+                    finished = True
+                else:
+                    is_finished = False
+            except:
+                finished =False
+            todos = Todo(
+                user = request.user,
+                title = request.POST['title'],
+                is_finished = finished
+            )
+            todos.save()
+            messages.success(request,f'Todo added from {request.user.username}!!')
 
+
+    form = TodoForm()
+    todo = Todo.objects.filter(user=request.user)
+    context = {
+        'todos':todo,
+        'form':form
+    }
+    return render(request,'portal/todo.html',context)
 
 

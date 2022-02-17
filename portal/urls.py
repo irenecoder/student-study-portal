@@ -13,6 +13,8 @@ urlpatterns=[
 
      path('youtube/',views.youtube,name="youtube"),
 
+     path('todo/',views.todo,name="todo"),
+
 ]
 
 
